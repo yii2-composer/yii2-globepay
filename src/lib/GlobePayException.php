@@ -1,6 +1,6 @@
 <?php
 
-namespace globepay\lib;
+namespace ota\globepay\lib;
 
 use yii\base\Exception;
 

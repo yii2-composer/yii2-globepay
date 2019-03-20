@@ -9,6 +9,8 @@
 namespace ota\globepay\lib;
 
 
+use globepay\lib\GlobePayException;
+
 trait ApiTrait
 {
     protected $driver;
