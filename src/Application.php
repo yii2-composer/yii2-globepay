@@ -47,4 +47,13 @@ class Application extends Component
 
         return $this;
     }
+
+    public function createNotifyAction(callable $handler)
+    {
+        return [
+            'class' => 'ota\globepay\NotifyAction',
+            'application' => $this,
+            'handler' => $handler
+        ];
+    }
 }
