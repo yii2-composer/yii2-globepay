@@ -21,7 +21,7 @@ class NotifyAction extends Action
 
     public function init()
     {
-        $this->decoded = json_decode($GLOBALS['HTTP_RAW_POST_DATA'], true);
+        $this->decoded = json_decode(file_get_contents("php://input"), true);
 
         $input = new GlobePayDataBase();
         $input->setNonceStr($this->decoded['nonce_str']);
