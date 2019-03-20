@@ -23,7 +23,9 @@ class Application extends Component
     public $credentialCode;
 
     private $_classMap = [
-        'unifiedorder' => 'ota\globepay\lib\drivers\GlobePayUnifiedOrder'
+        'unifiedorder' => 'ota\globepay\lib\drivers\GlobePayUnifiedOrder',
+        'glopepayapplyrefund' => 'ota\globepay\lib\drivers\GlobePayApplyRefund',
+        'globepayorderquery' => 'ota\globepay\lib\drivers\GlobePayOrderQuery',
     ];
 
     public function driver($api, $extra = [])

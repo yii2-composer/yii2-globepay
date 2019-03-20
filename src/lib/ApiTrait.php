@@ -158,20 +158,19 @@ trait ApiTrait
     /**
      *
      * 查询订单，nonce_str、time不需要填入
-     * @param GlobePayOrderQuery $inputObj
      * @param int $timeOut
      * @throws GlobePayException
      * @return $result 成功时返回，其他抛异常
      */
-    public function orderQuery($inputObj, $timeOut = 10)
+    public function orderQuery($timeOut = 10)
     {
         $partnerCode = $this->partnerCode;
-        $orderId = $inputObj->getOrderId();
+        $orderId = $this->driver->getOrderId();
         $url = "https://pay.globepay.co/api/v1.0/gateway/partners/$partnerCode/orders/$orderId";
-        $inputObj->setTime(self::getMillisecond());//时间戳
-        $inputObj->setNonceStr(self::getNonceStr());//随机字符串
-        $inputObj->setSign();
-        $response = self::getJsonCurl($url, $inputObj, $timeOut);
+        $this->driver->setTime(self::getMillisecond());//时间戳
+        $this->driver->setNonceStr(self::getNonceStr());//随机字符串
+        $this->driver->setSign();
+        $response = self::getJsonCurl($url, $this->driver, $timeOut);
         $result = GlobePayResults::prepare($response);
         return $result;
     }
@@ -179,21 +178,20 @@ trait ApiTrait
     /**
      *
      * 申请退款，nonce_str、time不需要填入
-     * @param GlobePayApplyRefund $inputObj
      * @param int $timeOut
      * @throws GlobePayException
      * @return $result 成功时返回，其他抛异常
      */
-    public function refund($inputObj, $timeOut = 10)
+    public function refund($timeOut = 10)
     {
         $partnerCode = $this->partnerCode;
-        $orderId = $inputObj->getOrderId();
-        $refundId = $inputObj->getRefundId();
+        $orderId = $this->driver->getOrderId();
+        $refundId = $this->driver->getRefundId();
         $url = "https://pay.globepay.co/api/v1.0/gateway/partners/$partnerCode/orders/$orderId/refunds/$refundId";
-        $inputObj->setTime(self::getMillisecond());//时间戳
-        $inputObj->setNonceStr(self::getNonceStr());//随机字符串
-        $inputObj->setSign();
-        $response = self::putJsonCurl($url, $inputObj, $timeOut);
+        $this->driver->setTime(self::getMillisecond());//时间戳
+        $this->driver->setNonceStr(self::getNonceStr());//随机字符串
+        $this->driver->setSign();
+        $response = self::putJsonCurl($url, $this->driver, $timeOut);
         $result = GlobePayResults::prepare($response);
         return $result;
     }
@@ -270,12 +268,12 @@ trait ApiTrait
         //设置超时
         curl_setopt($ch, CURLOPT_TIMEOUT, $second);
         //如果有配置代理这里就设置代理
-        if (GlobePayConfig::CURL_PROXY_HOST != "0.0.0.0"
-            && GlobePayConfig::CURL_PROXY_PORT != 0
-        ) {
-            curl_setopt($ch, CURLOPT_PROXY, GlobePayConfig::CURL_PROXY_HOST);
-            curl_setopt($ch, CURLOPT_PROXYPORT, GlobePayConfig::CURL_PROXY_PORT);
-        }
+//        if (GlobePayConfig::CURL_PROXY_HOST != "0.0.0.0"
+//            && GlobePayConfig::CURL_PROXY_PORT != 0
+//        ) {
+//            curl_setopt($ch, CURLOPT_PROXY, GlobePayConfig::CURL_PROXY_HOST);
+//            curl_setopt($ch, CURLOPT_PROXYPORT, GlobePayConfig::CURL_PROXY_PORT);
+//        }
         $url .= '?' . $inputObj->toQueryParams();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
