@@ -11,6 +11,7 @@ namespace ota\globepay;
 
 use ota\globepay\lib\GlobePayDataBase;
 use yii\base\Action;
+use yii\di\Instance;
 use yii\web\BadRequestHttpException;
 
 class NotifyAction extends Action
@@ -19,11 +20,21 @@ class NotifyAction extends Action
 
     public $handler;
 
+    /**
+     * @var \ota\globepay\Application $application
+     */
+    public $application;
+
     public function init()
     {
+        $this->application = Instance::ensure($this->application, 'ota\globepay\Application');
+
         $this->decoded = json_decode(file_get_contents("php://input"), true);
 
-        $input = new GlobePayDataBase();
+        $input = new GlobePayDataBase([
+            'partnerCode' => $this->application->partnerCode,
+            'credentialCode' => $this->application->credentialCode
+        ]);
         $input->setNonceStr($this->decoded['nonce_str']);
         $input->setTime($this->decoded['time']);
         $input->setSign();
