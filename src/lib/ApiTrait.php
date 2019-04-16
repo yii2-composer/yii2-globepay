@@ -23,14 +23,14 @@ trait ApiTrait
      * @throws GlobePayException
      * @return $result 成功时返回，其他抛异常
      */
-    public function exchangeRate($inputObj, $timeOut = 10)
+    public function exchangeRate($timeOut = 10)
     {
         $partnerCode = $this->partnerCode;
         $url = "https://pay.globepay.co/api/v1.0/gateway/partners/$partnerCode/exchange_rate";
-        $inputObj->setTime(self::getMillisecond());//时间戳
-        $inputObj->setNonceStr(self::getNonceStr());//随机字符串
-        $inputObj->setSign();
-        $response = self::getJsonCurl($url, $inputObj, $timeOut);
+        $this->driver->setTime(self::getMillisecond());//时间戳
+        $this->driver->setNonceStr(self::getNonceStr());//随机字符串
+        $this->driver->setSign();
+        $response = self::getJsonCurl($url, $this->driver, $timeOut);
         $result = GlobePayResults::prepare($response);
         return $result;
     }

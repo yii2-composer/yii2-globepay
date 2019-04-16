@@ -26,6 +26,7 @@ class Application extends Component
         'unifiedorder' => 'ota\globepay\lib\drivers\GlobePayUnifiedOrder',
         'glopepayapplyrefund' => 'ota\globepay\lib\drivers\GlobePayApplyRefund',
         'globepayorderquery' => 'ota\globepay\lib\drivers\GlobePayOrderQuery',
+        'globepayexchangerate' => 'ota\globepay\lib\drivers\GlobePayExchangeRate',
     ];
 
     public function driver($api, $extra = [])

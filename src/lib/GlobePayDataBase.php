@@ -227,17 +227,6 @@ class GlobePayResults extends GlobePayDataBase
     }
 }
 
-/**
- *
- * 汇率查询输入对象
- * @author Leijid
- *
- */
-class GlobePayExchangeRate extends GlobePayDataBase
-{
-
-}
-
 
 /**
  * QRCode支付跳转对象
